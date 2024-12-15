@@ -6,10 +6,10 @@ use std::thread;
 use std::time::Duration;
 use rand::Rng;
 use enigo::{
-    Button, Coordinate, Axis, 
+    Button, Axis, 
     Direction::{Click, Press, Release},
     Enigo, Key, Keyboard, Mouse, Settings,
-    {Coordinate::Abs, Coordinate::Rel},
+    Coordinate::Abs
 };
 use crate::utils::random_sleep;
 
@@ -35,7 +35,7 @@ impl SearchBot {
         // 将文本拆分为字符并逐个输入
         for c in text.chars() {
             // 输入单个字符
-            self.enigo.text(&c.to_string());
+            let _ =self.enigo.text(&c.to_string());
             // 添加随机延迟，模拟人类输入速度
             let delay = rand::thread_rng().gen_range(100..300);
             thread::sleep(Duration::from_millis(delay));
@@ -48,7 +48,7 @@ impl SearchBot {
         let sign = if height > 0 { 1 } else { -1 };
 
         for _ in 0..height.abs() {
-            self.enigo.scroll(1 * sign, Axis::Vertical);
+            let _ = self.enigo.scroll(1 * sign, Axis::Vertical);
             // 每次滚动间隔30-80毫秒,让滚动看起来更自然
             random_sleep(30..80);
         }
@@ -73,17 +73,17 @@ impl SearchBot {
 
     // 关闭标签页
     fn close_tab(&mut self) {
-        self.enigo.key(Key::Control, Press);
-        self.enigo.key(Key::Unicode('w'), Click);
-        self.enigo.key(Key::Control, Release);
+        let _ = self.enigo.key(Key::Control, Press);
+        let _ = self.enigo.key(Key::Unicode('w'), Click);
+        let _ = self.enigo.key(Key::Control, Release);
         thread::sleep(COMMON_WAIT_TIME);
     }
 
     // 打开新标签页
     fn open_new_tab(&mut self) {
-        self.enigo.key(Key::Control, Press);
-        self.enigo.key(Key::Unicode('t'), Click);
-        self.enigo.key(Key::Control, Release);
+        let _ = self.enigo.key(Key::Control, Press);
+        let _ = self.enigo.key(Key::Unicode('t'), Click);
+        let _ = self.enigo.key(Key::Control, Release);
         thread::sleep(COMMON_WAIT_TIME);
     }
 
@@ -154,7 +154,7 @@ impl SearchBot {
         // 输入搜索词
         self.human_typing(word);
         // 按下确认键
-        self.enigo.key(Key::Return, Click);
+        let _ = self.enigo.key(Key::Return, Click);
         println!("当前搜索词为 {}", word);
         // 等待3-5秒，确保页面加载完成
         random_sleep(3000..5000);
@@ -169,7 +169,7 @@ impl SearchBot {
         self.hot_words.update_if_needed().await?;
         
         // 打开浏览器
-        self.open_browser();
+        let _ =self.open_browser();
         thread::sleep(COMMON_WAIT_TIME);
 
         // 获取未搜索的词列表

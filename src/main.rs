@@ -10,9 +10,6 @@ async fn main() {
     let args: Vec<String> = std::env::args().collect();
     if args.len() > 1 && args[1] == "--test" {
         println!("Running keyboard tests...");
-        //utils::test_enigo();
-        //utils::test_hot_words();
-        utils::test_human_typing();
         return;
     }
 

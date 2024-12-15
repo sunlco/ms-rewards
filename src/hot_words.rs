@@ -3,7 +3,7 @@ use std::error::Error;
 use std::fs::{File, OpenOptions};
 use std::io::{Read, Write};
 use std::path::Path;
-use chrono::{Local, NaiveDateTime};
+use chrono::Local;
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct HotWord {
@@ -51,7 +51,7 @@ impl HotWordsData {
 
     pub fn needs_update(&self) -> bool {
         let now = Local::now().timestamp();
-        now - self.last_update >= 24 * 3600 // 24小时更新一次
+        now - self.last_update >= 6 * 3600 // 6 小时更新一次
     }
 
     pub async fn update_if_needed(&mut self) -> Result<(), Box<dyn Error>> {
